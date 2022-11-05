@@ -1,0 +1,99 @@
+import React, { FC, useState } from 'react'
+import { Button, FormControl, IconButton, Input, InputLabel, Stack } from '@mui/material'
+import { useSessionContext, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
+import Image from 'next/image'
+import NoImageIcon from '@mui/icons-material/HideImage'
+import ClearIcon from '@mui/icons-material/Clear'
+
+type InputForm = {
+  title: string
+  photo: FileList
+}
+
+export const Post: FC = () => {
+  const [loading, setLoading] = useState(false)
+  const supabase = useSupabaseClient()
+  const router = useRouter()
+  const { session } = useSessionContext()
+  const {register, handleSubmit, getValues, formState, resetField} = useForm<InputForm>({
+    defaultValues: {
+      title: '',
+      photo: undefined
+    }
+  })
+
+  async function postPhoto(title: string, photo: FileList) {
+    try {
+      if (!photo) {
+        toast('写真を選択してね！', {type: 'error'})
+        return
+      }
+      setLoading(true)
+
+      const file = photo[0]
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random()}.${fileExt}`
+      const {error: uploadError} = await supabase.storage.from('photos').upload(fileName, file)
+      if (uploadError) throw new Error(uploadError.message)
+
+      const {data: {publicUrl}} = supabase.storage.from('photos').getPublicUrl(fileName)
+
+      const insertItem = {
+        userId: session?.user?.id,
+        url: publicUrl,
+        updated_at: new Date(),
+        created_at: new Date(),
+        title: title
+      }
+
+      const { error } = await supabase.from('photos').insert(insertItem)
+
+      if (error) {
+        throw error
+      }
+      toast('写真を投稿しました！\n素敵な写真をありがとう！')
+      router.push('/photos')
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <Stack component="form" spacing={4} onSubmit={handleSubmit(({title, photo}) => postPhoto(title, photo))}>
+      <div className="w-full h-[300px] flex justify-center items-center border-dotted border">
+        {getValues().photo?.[0]
+          ? <div className="relative w-full h-full">
+              <Image alt="" fill className="object-contain" src={URL.createObjectURL(getValues().photo[0])} />
+              <IconButton className="absolute right-0 top-0" onClick={() => resetField('photo')}>
+                <ClearIcon />
+              </IconButton>
+            </div>
+          : <label className="flex justify-center flex-col items-center w-full h-full">
+              <NoImageIcon color="disabled" sx={{width: 100, height: 100}} />
+              <p className="mt-4 text-[#333]">写真を選択してね！</p>
+              <input type="file" accept="image/*" hidden id="photo" {...register('photo')}  />
+            </label>
+        }
+      </div>
+      
+      <FormControl>
+        <InputLabel htmlFor="username">ひとこと！</InputLabel>
+        <Input
+          id="title"
+          type="title"
+          {...register('title', {required: true, maxLength: 20})}
+        />
+      </FormControl>
+      <Button
+        variant="outlined"
+        type="submit"
+        disabled={loading}
+      >{loading ? 'Loading ...' : '写真を投稿する'}</Button>
+    </Stack>
+  )
+}
