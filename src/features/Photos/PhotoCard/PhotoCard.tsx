@@ -70,8 +70,8 @@ export const PhotoCard: FC<Props> = ({photo, user}) => {
           </div>
           <div className="flex justify-between items-center p-2">
             <div>
-              <p className="line-clamp-2 text-sm break-all font-bold">by: {photo.author.username}</p>
-              <p className="line-clamp-2 text-sm break-all">{photo.title}</p>
+              <p className="line-clamp-2 text-xs break-all font-bold">by: {photo.author.username}</p>
+              <p className="line-clamp-2 text-xs break-all">{photo.title}</p>
             </div>
             <IconButton aria-label="add to favorites" onClick={() => isLiked() ? unlikedPhoto() : likePhoto()}>
               <Badge badgeContent={photo.likes.length} color="error">
@@ -82,7 +82,7 @@ export const PhotoCard: FC<Props> = ({photo, user}) => {
         </div>
       </Modal>
       <div className="flex justify-between items-center h-[40px] p-1 bg-slate-100">
-        <p className="line-clamp-2 text-sm break-all">{photo.title}</p>
+        <p className="line-clamp-2 text-xs break-all">{photo.title}</p>
         <IconButton aria-label="add to favorites" onClick={() => isLiked() ? unlikedPhoto() : likePhoto()}>
           <Badge badgeContent={photo.likes.length} color="error">
             <FavoriteIcon fontSize="small" color={isLiked() ? 'error' : 'inherit'} />
