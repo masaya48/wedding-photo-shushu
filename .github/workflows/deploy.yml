@@ -1,7 +1,8 @@
-name: Preview
+name: Deploy
 on:
-  pull_request:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -11,6 +12,7 @@ jobs:
       - uses: amondnet/vercel-action@v25.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-args: "--prod"
           scope: "masaya48"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
