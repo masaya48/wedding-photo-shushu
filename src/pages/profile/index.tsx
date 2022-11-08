@@ -12,15 +12,11 @@ type Props = {
   avatarUrl: string
 }
 
-const Profile: NextPageWithLayout<Props> = ({user, profile, avatarUrl}) => {
-  console.log('avatarUrl', avatarUrl);
-  
-  return (
-    <section className="p-4 font-mono">
-      <ProfileComponent profile={profile} avatarUrl={avatarUrl} />
-    </section>
-  )
-}
+const Profile: NextPageWithLayout<Props> = ({profile, avatarUrl}) => (
+  <section className="p-4 font-mono">
+    <ProfileComponent profile={profile} avatarUrl={avatarUrl} />
+  </section>
+)
 
 Profile.getLayout = (page) => <Layout title="Profile">{page}</Layout>
 
@@ -29,7 +25,7 @@ export const getServerSideProps = withPageAuth({
   async getServerSideProps(_, supabase: SupabaseClient<Database>) {
     const { data: {user}} = await supabase.auth.getUser()
     const { data: profile } = await supabase.from('profiles').select('*').eq('id', user?.id).single()
-    const { data: avatar } = await supabase.storage.from('avatars').getPublicUrl(profile?.avatar_url ?? '')
+    const { data: avatar } = supabase.storage.from('avatars').getPublicUrl(profile?.avatar_url ?? '')
 
     return { props: { profile, avatarUrl: profile?.avatar_url ? avatar.publicUrl : '' } };
   }

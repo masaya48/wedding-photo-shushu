@@ -3,8 +3,6 @@
 import React, { FC, useState } from 'react'
 import { useLogin } from '@/hooks/useLogin'
 import { Button, FormControl, Input, InputLabel, Stack } from '@mui/material'
-import { useSessionContext } from '@supabase/auth-helpers-react'
-import Link from 'next/link'
 
 export const Auth: FC = () => {
   const [email, setEmail] = useState('')

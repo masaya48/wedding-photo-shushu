@@ -25,7 +25,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <SessionContextProvider supabaseClient={supabaseClient}>
       <Component {...pageProps} />
       <ToastContainer />
-      <CssBaseline />
+      {/* <CssBaseline /> */}
     </SessionContextProvider>
   )
 }
