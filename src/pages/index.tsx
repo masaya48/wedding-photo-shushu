@@ -1,18 +1,29 @@
 import React from 'react'
-import type { NextPage } from 'next'
-import { Button } from '@mui/material'
+import type { GetServerSidePropsContext, NextPage } from 'next'
+import { Button, Container } from '@mui/material'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import Link from 'next/link'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 
 const Home: NextPage = () => (
-  <section className="p-4 font-mono bg-[url('/bg-main.jpg')] bg-cover bg-no-repeat h-[100vh] bg-[top_left_85%]">
-    <h1 className="mt-16 text-3xl text-center text-[#333] underline underline-offset-4">Masaya & Akane</h1>
-    <p className="text-center text-2xl text-[#333] mt-40 underline underline-offset-4">Welcome to our wedding party!</p>
-    <Button className="absolute bottom-10 m-auto bg-white right-4" variant="outlined" endIcon={<ArrowForwardIosIcon />}>
+  <Container className="p-4 font-mono bg-[url('/bg-main.jpg')] bg-cover bg-no-repeat h-[100vh] bg-[top_left_85%]">
+    <Button classes={{root: 'absolute bottom-10 m-auto bg-white right-4'}} variant="outlined" endIcon={<ArrowForwardIosIcon />}>
       <Link href="/login">ログイン</Link>
     </Button>
-  </section>
+  </Container>
 )
+
+// export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+//   const supabase = createServerSupabaseClient(ctx)
+//   const { data: {session} } = await supabase.auth.getSession()
+//   if (session) return {
+//     redirect: {
+//       destination: '/photos',
+//       permanent: false
+//     }
+//   }
+//   return {props: {}}
+// }
 
 export default Home

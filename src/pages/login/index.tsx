@@ -22,7 +22,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       permanent: false
     }
   }
-  return {}
+  return {props: {}}
 }
 
 export default Login

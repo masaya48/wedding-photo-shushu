@@ -17,14 +17,14 @@ export const Photos: FC<Props> = ({photos, user}) => {
   return (
     <section className="py-4 h-full overflow-y-auto">
       {photos.length === 0 && <p>まだ投稿はないよ！<br />みんないっぱい投稿しよう！</p>}
-      <ul className="inline-grid grid-cols-3 w-full">
+      <ul className="inline-grid grid-cols-3 w-full gap-2">
         {photos.map((photo) => (
           <li key={photo.id}>
             <PhotoCard photo={photo} user={user} />
           </li>
         ))}
       </ul>
-      <Fab aria-label="add" className="fixed bottom-20 right-8" onClick={() => router.push('/photos/post')}>
+      <Fab aria-label="add" classes={{root: 'fixed bottom-20 right-8'}} onClick={() => router.push('/photos/post')}>
         <AddIcon />
       </Fab>
     </section>
