@@ -21,97 +21,44 @@ type InputForm = {
   avatar: FileList
 }
 
-export const Profile: FC<Props> = ({profile, avatarUrl}) => {
-  const [fileName, setFileName] = useState('')
+export const Profile: FC<Props> = () => {
   const [loading, setLoading] = useState(false)
   const supabase = useSupabaseClient()
   const router = useRouter()
   const { session } = useSessionContext()
-  const {register, handleSubmit, getValues} = useForm<InputForm>({
+  const {register, handleSubmit} = useForm<InputForm>({
     defaultValues: {
-      username: profile?.username ?? '',
-      email: session?.user.email ?? '',
-      avatar: undefined
+      username: ''
     }
   })
 
-  async function uploadAvatar(event: ChangeEvent<HTMLInputElement>) {
-    try {
-      setLoading(true)
-
-      if (!event.target.files || event.target.files.length === 0) {
-        throw new Error('You must select an image to upload.')
-      }
-
-      const file = event.target.files[0]
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
-      const filePath = `${fileName}`
-
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file)
-
-      if (uploadError) {
-        throw uploadError
-      }
-      setFileName(fileName)
-      await updateProfile(getValues().username, fileName)
-    } catch (error: any) {
-      alert(error.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  async function updateProfile(username: string | null, fileName: string) {
+  async function updateProfile(username: string) {
     try {
       setLoading(true)
 
       const updates = {
         id: session?.user?.id,
         username,
-        avatar_url: fileName,
         updated_at: new Date(),
       }
 
       const { error } = await supabase.from('profiles').upsert(updates)
 
       if (error) {
-        throw error
+        throw new Error(error.message)
       }
-      toast('プロフィールを更新しました！')
-      router.replace(router.asPath)
+      toast('お名前を登録しました！早速写真を投稿しましょう！')
+      router.push('/photos')
     } catch (error: any) {
-      alert(error.message)
+      toast('お名前の登録に失敗しました。再度登録してください', {type: 'error'})
     } finally {
       setLoading(false)
     }
   }
 
-  const avatarSrc = getValues().avatar?.length > 0 ? URL.createObjectURL(getValues().avatar[0]) : avatarUrl
 
   return (
-    <Stack component="form" spacing={4} onSubmit={handleSubmit(({username}) => updateProfile(username, fileName))}>
-      <div className="flex flex-end">
-        <Avatar sx={{width: 100, height: 100}}>
-          {avatarSrc ? <Image src={avatarSrc} alt="" width={100} height={100} /> : <PersonIcon width={100} />}
-        </Avatar>
-        <Button className="flex-grow-0" variant="contained" component="label">
-          アバターをアップロードする
-          <input type="file" hidden {...register('avatar')} onChange={uploadAvatar} />
-        </Button>
-      </div>
-      
-      <FormControl>
-        <InputLabel htmlFor="username">メールアドレス</InputLabel>
-        <Input
-          id="email"
-          type="email"
-          disabled
-          {...register('email')}
-        />
-      </FormControl>
+    <Stack component="form" spacing={4} onSubmit={handleSubmit(({username}) => updateProfile(username))}>
       <FormControl>
         <InputLabel htmlFor="username">お名前</InputLabel>
         <Input
@@ -125,7 +72,7 @@ export const Profile: FC<Props> = ({profile, avatarUrl}) => {
           variant="outlined"
           type="submit"
           disabled={loading}
-        >{loading ? 'Loading ...' : 'プロフィールを更新'}</Button>
+        >{loading ? 'Loading ...' : 'お名前を登録'}</Button>
         <Button
           variant="text"
           onClick={async () => {

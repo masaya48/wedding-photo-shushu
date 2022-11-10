@@ -18,12 +18,14 @@ export const Post: FC = () => {
   const supabase = useSupabaseClient()
   const router = useRouter()
   const { session } = useSessionContext()
-  const {register, handleSubmit, getValues, formState, resetField} = useForm<InputForm>({
+  const {register, handleSubmit, getValues, resetField, setValue} = useForm<InputForm>({
     defaultValues: {
       title: '',
       photo: undefined
     }
   })
+
+  const [preview, setPreview] = useState<string | null>(null)
 
   async function postPhoto(title: string, photo: FileList) {
     try {
@@ -63,20 +65,28 @@ export const Post: FC = () => {
     }
   }
 
+  console.log(getValues().photo)
+
   return (
     <Stack component="form" spacing={4} onSubmit={handleSubmit(({title, photo}) => postPhoto(title, photo))}>
       <div className="w-full h-[300px] flex justify-center items-center border-dotted border">
-        {getValues().photo?.[0]
+        {preview
           ? <div className="relative w-full h-full">
-              <Image alt="" fill className="object-contain" src={URL.createObjectURL(getValues().photo[0])} />
-              <IconButton className="absolute right-0 top-0" onClick={() => resetField('photo')}>
+              <Image alt="" fill className="object-contain" src={preview} />
+              <IconButton className="absolute right-0 top-0" onClick={() => {
+                resetField('photo')
+                setPreview(null)
+              }}>
                 <ClearIcon />
               </IconButton>
             </div>
           : <label className="flex justify-center flex-col items-center w-full h-full">
               <NoImageIcon color="disabled" sx={{width: 100, height: 100}} />
               <p className="mt-4 text-[#333]">写真を選択してね！</p>
-              <input type="file" accept="image/*" hidden id="photo" {...register('photo')}  />
+              <input type="file" accept="image/*" hidden id="photo" onChange={(e) => {
+                setValue('photo', e.target.files!)
+                setPreview(URL.createObjectURL((e.target.files as FileList)[0]))
+              }} />
             </label>
         }
       </div>
@@ -86,7 +96,7 @@ export const Post: FC = () => {
         <Input
           id="title"
           type="title"
-          {...register('title', {required: true, maxLength: 20})}
+          {...register('title', {maxLength: 20})}
         />
       </FormControl>
       <Button
