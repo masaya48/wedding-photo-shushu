@@ -9,4 +9,4 @@ export type PhotoType = {
   title: string | null
 }
 
-export type PhotoCardType = (PhotoType & {likes: LikeType | LikeType[] | null} & {author: {username: unknown} | {username: unknown}[] | null})
+export type PhotoCardType = (PhotoType & {likes: LikeType[]} & {author: {username: string}})

@@ -1,18 +1,12 @@
 import React from 'react'
 import { NextPageWithLayout } from '../_app'
-import { Layout } from '@/components/Layout'
-import { createServerSupabaseClient, SupabaseClient, User, withPageAuth } from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/libs/database.types'
-import { PhotoType } from '@/types/photo.type'
-import {Photos as PhotosComponent} from '@/features/Photos'
-import { LikeType } from '@/types/like.type'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { Photos as PhotosComponent } from '@/features/Photos'
 import { GetServerSidePropsContext } from 'next'
 
 const Photos: NextPageWithLayout = () => (
   <PhotosComponent />
 )
-
-Photos.getLayout = (page) => <Layout title="Photos">{page}</Layout>
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient(ctx)

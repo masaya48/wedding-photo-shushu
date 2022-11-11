@@ -27,7 +27,7 @@ export const Post: FC = () => {
 
   const [preview, setPreview] = useState<string | null>(null)
 
-  async function postPhoto(title: string, photo: FileList) {
+  const postPhoto = async(title: string, photo: FileList) => {
     try {
       if (!photo) {
         toast('写真を選択してね！', {type: 'error'})
@@ -54,22 +54,20 @@ export const Post: FC = () => {
       const { error } = await supabase.from('photos').insert(insertItem)
 
       if (error) {
-        throw error
+        throw new Error(error.message)
       }
       toast('写真を投稿しました！\n素敵な写真をありがとう！')
       router.push('/photos')
-    } catch (error: any) {
-      alert(error.message)
+    } catch (error) {
+      toast('写真投稿に失敗しました。リロードして再チャレンジしてね！')
     } finally {
       setLoading(false)
     }
   }
 
-  console.log(getValues().photo)
-
   return (
     <Stack component="form" spacing={4} onSubmit={handleSubmit(({title, photo}) => postPhoto(title, photo))}>
-      <div className="w-full h-[300px] flex justify-center items-center border-dotted border">
+      <div className="w-full h-[400px] flex justify-center items-center border-dotted border">
         {preview
           ? <div className="relative w-full h-full">
               <Image alt="" fill className="object-contain" src={preview} />
