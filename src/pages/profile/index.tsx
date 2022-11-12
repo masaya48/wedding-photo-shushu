@@ -2,33 +2,27 @@ import React from 'react'
 import { Profile as ProfileComponent } from '@/features/Profile'
 import { NextPageWithLayout } from '../_app'
 import { Layout } from '@/components/Layout'
-import { withPageAuth, User, SupabaseClient} from '@supabase/auth-helpers-nextjs'
-import { Database } from '@/libs/database.types'
-import { Profile } from '@/types/profile.types'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { GetServerSidePropsContext } from 'next'
 
-type Props = {
-  user: User,
-  profile: Profile | null
-  avatarUrl: string
-}
-
-const Profile: NextPageWithLayout<Props> = ({profile, avatarUrl}) => (
+const Profile: NextPageWithLayout = () => (
   <section className="p-4 font-mono">
-    <ProfileComponent profile={profile} avatarUrl={avatarUrl} />
+    <ProfileComponent />
   </section>
 )
 
 Profile.getLayout = (page) => <Layout title="Profile">{page}</Layout>
 
-export const getServerSideProps = withPageAuth({
-  redirectTo: '/login',
-  async getServerSideProps(_, supabase: SupabaseClient<Database>) {
-    const { data: {user}} = await supabase.auth.getUser()
-    const { data: profile } = await supabase.from('profiles').select('*').eq('id', user?.id).single()
-    const { data: avatar } = supabase.storage.from('avatars').getPublicUrl(profile?.avatar_url ?? '')
-
-    return { props: { profile, avatarUrl: profile?.avatar_url ? avatar.publicUrl : '' } };
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const supabase = createServerSupabaseClient(ctx)
+  const {data: {session}} = await supabase.auth.getSession()
+  if (!session) return {
+    redirect: {
+      permanent: false,
+      destination: '/login'
+    }
   }
-})
+  return {props: {}}
+}
 
 export default Profile

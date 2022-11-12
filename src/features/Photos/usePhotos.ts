@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 export type SortKeyType = 'like' | 'upload_descend' | 'upload_ascend'
 
 export const usePhotos = () => {
-  const [sortKey, setSortKey] = useState<SortKeyType>('like')
+  const [sortKey, setSortKey] = useState<SortKeyType>('upload_descend')
   const [photos, setPhotos] = useState<PhotoCardType[] | null>(null)
   const supabase = useSupabaseClient<Database>()
   useEffect(() => {

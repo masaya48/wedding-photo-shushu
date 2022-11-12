@@ -93,7 +93,7 @@ export const PhotoCard: FC<Props> = ({photo, user}) => {
           </div>
           <div className="flex justify-between items-center p-2">
             <div>
-              <p className="line-clamp-2 text-xs break-all font-bold">@{author}</p>
+              <p className="line-clamp-2 text-xs break-all font-bold">{author}</p>
               <p className="line-clamp-2 text-xs break-all">{photo.title}</p>
             </div>
             <IconButton aria-label="add to favorites" onClick={() => {
@@ -108,7 +108,7 @@ export const PhotoCard: FC<Props> = ({photo, user}) => {
         </div>
       </Modal>
       <div className="flex justify-between items-center h-[40px] p-1 bg-slate-100">
-        <p className="line-clamp-2 text-xs break-all">@{author}</p>
+        <p className="line-clamp-2 text-xs break-all">{author}</p>
         <IconButton aria-label="add to favorites" onClick={() => {
           if (loading) return
           badgeState.isLiked ? unlikedPhoto() : likePhoto()

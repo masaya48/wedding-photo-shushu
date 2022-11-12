@@ -3,8 +3,6 @@ import type { NextPage } from 'next'
 import { Button } from '@mui/material'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import Link from 'next/link'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/router'
 import { useTrail, animated, useTransition, config } from 'react-spring'
 
 const ANIMATION_TITLE = ['P', 'h', 'o', 't', 'o', ' ','C', 'o', 'n', 't', 'e', 's', 't']
@@ -13,15 +11,6 @@ const ANIMATION_NAME = ['M', 'a', 's', 'a', 'y', 'a', '&', 'A', 'k', 'a', 'n', '
 const trailConfig = { mass: 4, tension: 2000, friction: 200 }
 
 const Home: NextPage = () => {
-  const supabase = useSupabaseClient()
-  const router = useRouter()
-
-  useEffect(() => {
-    supabase.auth.onAuthStateChange((e) => {
-      if (e === 'SIGNED_IN') router.push('/photos')
-    })
-  }, [router, supabase.auth])
-
   const [toggle] = useState(true)
 
   const baseTrail = {

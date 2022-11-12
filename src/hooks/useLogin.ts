@@ -9,10 +9,12 @@ export const useLogin = () => {
   const signIn = async (email: string) => {
     try {
       setLoading(true)
-      const { error } = await supabase.auth.signInWithOtp({email})
+      const { error } = await supabase.auth.signInWithOtp({email, options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/photos`
+      }})
       if (error) throw new Error(error.message)
-      toast('ログインに成功しました！メールが届いているのでそちらをご確認ください！')
-    } catch (error: any) {
+      toast('入力いただいたメールアドレスにメールが届いているのでそちらをご確認ください！')
+    } catch (error) {
       toast('ログインに失敗しました。')
     } finally {
       setLoading(false)
@@ -23,7 +25,7 @@ export const useLogin = () => {
     try {
       setLoading(true)
       const { error } = await supabase.auth.signInWithOAuth({provider: 'google', options: {
-        redirectTo: `/photos`
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/photos`
       }})
       if (error) throw new Error(error.message)
     } catch (e) {

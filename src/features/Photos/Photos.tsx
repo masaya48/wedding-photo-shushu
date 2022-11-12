@@ -24,9 +24,9 @@ export const Photos: FC = () => {
               setSortKey(value as SortKeyType)
             }}
           >
+            <MenuItem value="upload_descend">新着順</MenuItem>
+            <MenuItem value="upload_ascend">投稿順</MenuItem>
             <MenuItem value="like">イイネ順</MenuItem>
-            <MenuItem value="upload_descend">新しい順</MenuItem>
-            <MenuItem value="upload_ascend">古い順</MenuItem>
           </Select>
         </FormControl>
       </div>

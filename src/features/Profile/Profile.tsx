@@ -1,19 +1,10 @@
-import React, { ChangeEvent, FC, useState } from 'react'
-// import { Avatar } from '@/components/Avatar'
-import { Avatar, Button, FormControl, FormHelperText, Input, InputLabel, Stack } from '@mui/material'
+import React, { FC, useState } from 'react'
+import { Button, FormControl, FormHelperText, Input, InputLabel, Stack } from '@mui/material'
 import { useSessionContext, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
-import { Profile as ProfileType } from '@/types/profile.types'
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
-import Image from 'next/image'
-import PersonIcon from '@mui/icons-material/Person'
 
-
-type Props = {
-  profile: ProfileType | null
-  avatarUrl: string
-}
 
 type InputForm = {
   username: string
@@ -21,7 +12,7 @@ type InputForm = {
   avatar: FileList
 }
 
-export const Profile: FC<Props> = () => {
+export const Profile: FC = () => {
   const [loading, setLoading] = useState(false)
   const supabase = useSupabaseClient()
   const router = useRouter()
