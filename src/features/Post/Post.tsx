@@ -67,7 +67,7 @@ export const Post: FC = () => {
 
   return (
     <Stack component="form" spacing={4} onSubmit={handleSubmit(({title, photo}) => postPhoto(title, photo))}>
-      <div className="w-full h-[400px] flex justify-center items-center border-dotted border">
+      <div className="w-full h-[300px] flex justify-center items-center border-dotted border">
         {preview
           ? <div className="relative w-full h-full">
               <Image alt="" fill className="object-contain" src={preview} />

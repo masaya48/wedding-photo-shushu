@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react'
 // import { Avatar } from '@/components/Avatar'
-import { Avatar, Button, FormControl, Input, InputLabel, Stack } from '@mui/material'
+import { Avatar, Button, FormControl, FormHelperText, Input, InputLabel, Stack } from '@mui/material'
 import { useSessionContext, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
 import { Profile as ProfileType } from '@/types/profile.types'
@@ -32,7 +32,7 @@ export const Profile: FC<Props> = () => {
     }
   })
 
-  async function updateProfile(username: string) {
+  const updateProfile = async (username: string) => {
     try {
       setLoading(true)
 
@@ -66,6 +66,7 @@ export const Profile: FC<Props> = () => {
           type="text"
           {...register('username')}
         />
+        <FormHelperText>お名前を<b>フルネーム</b>で登録してください！景品をお渡しするために必要です！</FormHelperText>
       </FormControl>
       <Stack spacing={2}>
         <Button
