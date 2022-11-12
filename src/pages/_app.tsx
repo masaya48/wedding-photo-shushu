@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import { useState } from 'react'
 import { Database } from '@/libs/database.types'
-import { CssBaseline } from '@mui/material'
+import { ViewportProvider } from '@/providers/ViewportProvider'
 
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: JSX.Element) => JSX.Element
@@ -23,9 +23,10 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient<Database>())
   return getLayout(
     <SessionContextProvider supabaseClient={supabaseClient}>
-      <Component {...pageProps} />
-      <ToastContainer />
-      {/* <CssBaseline /> */}
+      <ViewportProvider>
+        <Component {...pageProps} />
+        <ToastContainer />
+      </ViewportProvider>
     </SessionContextProvider>
   )
 }

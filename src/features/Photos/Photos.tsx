@@ -30,7 +30,7 @@ export const Photos: FC = () => {
           </Select>
         </FormControl>
       </div>
-      <main className="h-[calc(100vh_-_124px)]">
+      <main className="h-[calc(var(--vh,1vh)_*_100_-_144px)]">
         <section className="h-full overflow-y-auto">
           {photos?.length === 0 && <p>まだ投稿はないよ！<br />みんないっぱい投稿しよう！</p>}
           {user && (

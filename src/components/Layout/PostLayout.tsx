@@ -12,7 +12,7 @@ export const PostLayout: FC<Props> = ({children}) => {
   return (
     <section className="font-mono">
       <h1 className="h-[88px] p-4 text-3xl text-[#333] underline underline-offset-4 flex items-center">Post</h1>
-      <main className="h-[calc(100vh_-_124px)]">{children}</main>
+      <main className="h-[calc(var(--vh,1vh)_*_100_-_144px]">{children}</main>
       <BottomNavigation
         showLabels
         value="写真一覧"
