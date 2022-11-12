@@ -87,7 +87,7 @@ const Home: NextPage = () => {
         ))}
       </div>
       {transition((style, item) => item && (
-        <animated.div style={style} className="mt-96 pt-5 text-md font-extrabold rounded-lg text-gray-500 text-right">
+        <animated.div style={style} className="absolute bottom-32 right-4 pt-5 text-md font-extrabold rounded-lg text-gray-500 text-right">
           <p>
             本日はお越しいただき<br />ありがとうございます！
           </p>
