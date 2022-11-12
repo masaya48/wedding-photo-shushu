@@ -11,6 +11,7 @@ export const useLogin = () => {
       setLoading(true)
       const { error } = await supabase.auth.signInWithOtp({email})
       if (error) throw new Error(error.message)
+      toast('ログインに成功しました！メールが届いているのでそちらをご確認ください！')
     } catch (error: any) {
       toast('ログインに失敗しました。')
     } finally {
