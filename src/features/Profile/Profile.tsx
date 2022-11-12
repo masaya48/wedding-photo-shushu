@@ -40,7 +40,7 @@ export const Profile: FC = () => {
       }
       toast('お名前を登録しました！早速写真を投稿しましょう！')
       router.push('/photos')
-    } catch (error: any) {
+    } catch (error) {
       toast('お名前の登録に失敗しました。再度登録してください', {type: 'error'})
     } finally {
       setLoading(false)
