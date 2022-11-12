@@ -33,7 +33,7 @@ const Home: NextPage = () => {
         <p>2022.11.19 Masaya & Akane</p>
       </div>
       <div className="absolute bottom-10 m-auto bg-white right-4">
-        <Button variant="outlined" endIcon={<ArrowForwardIosIcon />}>
+        <Button variant="outlined" size="large" endIcon={<ArrowForwardIosIcon />}>
           <Link href="/login">ログイン</Link>
         </Button>
       </div>

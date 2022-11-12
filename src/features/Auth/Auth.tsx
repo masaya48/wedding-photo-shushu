@@ -34,14 +34,15 @@ export const Auth: FC = () => {
           <span>{loading ? 'Loading...' : 'ログイン'}</span>
         </Button>
       </Stack>
-      <Divider className="mt-10 mb-10">
-        <Chip label="または" />
-      </Divider>
+      <div className="mt-10 mb-10">
+        <Divider>
+          <Chip label="または" />
+        </Divider>
+      </div>
       <Stack spacing={2}>
-        <Button variant="contained" startIcon={<GoogleIcon />} onClick={() => signInWithGoogle()}>Googleでログイン</Button>
-        <Button variant="contained" startIcon={<TwitterIcon />} onClick={() => signInWithTwitter()}>Twitterでログイン</Button>
+        <Button variant="outlined" startIcon={<GoogleIcon />} onClick={() => signInWithGoogle()}>Googleでログイン</Button>
+        <Button variant="outlined" startIcon={<TwitterIcon />} onClick={() => signInWithTwitter()}>Twitterでログイン</Button>
       </Stack>
-      
     </section>
   )
 }
