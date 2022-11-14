@@ -80,12 +80,18 @@ const Home: NextPage = () => {
           <p>
             本日はお越しいただき<br />ありがとうございます！
           </p>
-          <p className="mt-5">
+          <p className="mt-2">
             フォトコンテストに参加して<br />
             <b className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">豪華賞品</b>をゲットしよう！
           </p>
+          <Button variant="text" size="medium">
+            <Link href="/guide">サイトの使い方</Link>
+          </Button>
         </animated.div>
       ))}
+      <div className="absolute bottom-10 m-auto left-4 font-bold underline">
+        
+      </div>
       <div className="absolute bottom-10 m-auto bg-white right-4 animate-bounce">
         <Button variant="outlined" size="large" endIcon={<ArrowForwardIosIcon />}>
           <Link href="/login">ログイン</Link>
