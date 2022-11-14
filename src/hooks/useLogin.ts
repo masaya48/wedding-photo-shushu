@@ -10,7 +10,7 @@ export const useLogin = () => {
     try {
       setLoading(true)
       const { error } = await supabase.auth.signInWithOtp({email, options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/photos`
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
       }})
       if (error) throw new Error(error.message)
       toast('入力いただいたメールアドレスにメールが届いているのでそちらをご確認ください！')
@@ -25,7 +25,7 @@ export const useLogin = () => {
     try {
       setLoading(true)
       const { error } = await supabase.auth.signInWithOAuth({provider: 'google', options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/photos`
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
       }})
       if (error) throw new Error(error.message)
     } catch (e) {
@@ -39,7 +39,7 @@ export const useLogin = () => {
     try {
       setLoading(true)
       const { error } = await supabase.auth.signInWithOAuth({provider: 'twitter', options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/photos`
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
       }})
       if (error) throw new Error(error.message)
     } catch (e) {
