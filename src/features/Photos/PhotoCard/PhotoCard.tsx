@@ -79,7 +79,7 @@ export const PhotoCard: FC<Props> = ({photo, user}) => {
   return (
     <div>
       <div className="relative h-[150px]" onClick={() => setOpen(true)}>
-        <Image src={photo.url} alt={photo.title ?? ''} fill className="object-contain" priority />
+        <Image src={photo.url} alt={photo.title ?? ''} fill className="object-cover" priority />
       </div>
       <Modal
         open={open}
